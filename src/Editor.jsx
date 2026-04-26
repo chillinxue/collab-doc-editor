@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'; // Added useRef
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -10,53 +10,46 @@ const Editor = () => {
     const [saveStatus, setSaveStatus] = useState('Saved');
     const [lastSaved, setLastSaved] = useState(localStorage.getItem('last-saved-time') || 'Never');
 
-    // --- Refs ---
+    // --- Task 3: Sharing States ---
+    const [isOwner, setIsOwner] = useState(true);
+    const [sharedUsers, setSharedUsers] = useState(['colleague@ajaia.com']);
+    const [newEmail, setNewEmail] = useState('');
+    const [showShareModal, setShowShareModal] = useState(false);
+
     const fileInputRef = useRef(null);
 
     // --- Persistence Logic ---
-    const handleSave = useCallback((content, currentTitle) => {
-        setSaveStatus('Saving...');
-        setTimeout(() => {
-            localStorage.setItem('saved-doc', content);
-            localStorage.setItem('saved-title', currentTitle);
-            const now = new Date().toLocaleTimeString();
-            localStorage.setItem('last-saved-time', now);
-            setLastSaved(now);
-            setSaveStatus('Saved');
-        }, 500);
-    }, []);
+    const handleSave = useCallback(
+        (content, currentTitle) => {
+            if (!isOwner) return;
 
-    // Sync title changes
-    useEffect(() => {
-        setSaveStatus('Unsaved');
-        const timeout = setTimeout(() => {
-            localStorage.setItem('saved-title', title);
-            setSaveStatus('Saved');
-        }, 1000);
-        return () => clearTimeout(timeout);
-    }, [title]);
+            setSaveStatus('Saving...'); // saveStatus
 
-    // --- File Upload Logic ---
+            setTimeout(() => {
+                localStorage.setItem('saved-doc', content);
+                localStorage.setItem('saved-title', currentTitle);
+                const now = new Date().toLocaleTimeString();
+                localStorage.setItem('last-saved-time', now);
+
+                setLastSaved(now);
+                setSaveStatus('Saved'); // saveStatus
+            }, 500);
+        },
+        [isOwner]
+    );
+
+    // --- File Upload ---
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
-        if (!file) return;
-
-        // Restriction check for Task 2
-        if (!file.name.endsWith('.txt') && !file.name.endsWith('.md')) {
-            alert('Unsupported file type. Please use .txt or .md');
-            return;
-        }
+        if (!file || !isOwner) return;
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            const content = e.target.result;
             if (editor) {
-                // Update editor content
-                editor.commands.setContent(content);
-                // Update title based on filename (removing extension)
+                editor.commands.setContent(e.target.result);
                 const newTitle = file.name.replace(/\.[^/.]+$/, '');
                 setTitle(newTitle);
-                setSaveStatus('Imported');
+                setSaveStatus('Imported'); // use saveStatus
             }
         };
         reader.readAsText(file);
@@ -65,13 +58,25 @@ const Editor = () => {
     // --- TipTap Initialization ---
     const editor = useEditor({
         extensions: [StarterKit, Underline],
-        content: localStorage.getItem('saved-doc') || '<h1>Welcome to Ajaia Docs</h1><p>Start typing...</p>',
+        content: localStorage.getItem('saved-doc') || '<h1>Ajaia Assignment</h1><p>Start editing...</p>',
+        editable: isOwner,
         onUpdate: ({ editor }) => {
-            setSaveStatus('Unsaved');
-            const html = editor.getHTML();
-            handleSave(html, title);
+            setSaveStatus('Unsaved'); // saveStatus
+            handleSave(editor.getHTML(), title);
         },
     });
+
+    useEffect(() => {
+        if (editor) editor.setEditable(isOwner);
+    }, [isOwner, editor]);
+
+    // --- Sharing Logic ---
+    const handleAddUser = () => {
+        if (newEmail && !sharedUsers.includes(newEmail)) {
+            setSharedUsers([...sharedUsers, newEmail]); // setSharedUsers
+            setNewEmail('');
+        }
+    };
 
     if (!editor) return null;
 
@@ -79,43 +84,66 @@ const Editor = () => {
 
     return (
         <div className='editor-wrapper'>
-            {/* Status Bar */}
             <div className='status-bar'>
-                <span className={`status-badge ${saveStatus.toLowerCase().replace('...', '').replace(' ', '-')}`}>
-                    {saveStatus}
-                </span>
-                <span className='last-saved'>Last saved: {lastSaved}</span>
+                <div className='status-left'>
+                    {/* use saveStatus to change Badge color */}
+                    <span className={`status-badge ${saveStatus.toLowerCase().replace('...', '').replace(' ', '-')}`}>
+                        {isOwner ? `Status: ${saveStatus}` : 'Read-Only Mode'}
+                    </span>
+                </div>
+                <div className='status-right'>
+                    <button className='sim-btn' onClick={() => setIsOwner(!isOwner)}>
+                        Switch to {isOwner ? 'Guest View' : 'Owner View'}
+                    </button>
+                    <span className='last-saved'>Last saved: {lastSaved}</span>
+                </div>
             </div>
 
-            {/* Title & Import Section */}
             <div className='header-main'>
-                <div className='title-container' style={{ flex: 1 }}>
-                    <input
-                        className='title-input'
-                        type='text'
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder='Enter document title...'
-                    />
-                </div>
+                <input
+                    className='title-input'
+                    type='text'
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    disabled={!isOwner}
+                />
 
-                {/* Hidden File Input & Custom Button */}
-                <div className='import-action'>
-                    <input
-                        type='file'
-                        ref={fileInputRef}
-                        onChange={handleFileUpload}
-                        accept='.txt,.md'
-                        style={{ display: 'none' }}
-                    />
-                    <button className='import-btn' onClick={() => fileInputRef.current.click()}>
-                        Import .txt/.md
+                <div className='action-buttons'>
+                    <button className='import-btn' onClick={() => fileInputRef.current.click()} disabled={!isOwner}>
+                        Import
+                    </button>
+                    <button className='share-btn' onClick={() => setShowShareModal(!showShareModal)}>
+                        Share
                     </button>
                 </div>
+                <input type='file' ref={fileInputRef} onChange={handleFileUpload} style={{ display: 'none' }} />
             </div>
 
-            {/* Toolbar */}
-            <div className='toolbar'>
+            {/* Share Modal*/}
+            {showShareModal && (
+                <div className='share-modal'>
+                    <h4>Share Settings</h4>
+                    <div className='share-input-group'>
+                        <input
+                            type='email'
+                            placeholder='Email address'
+                            value={newEmail}
+                            onChange={(e) => setNewEmail(e.target.value)}
+                        />
+                        <button onClick={handleAddUser}>Add</button>
+                    </div>
+                    <ul className='user-list'>
+                        <li>
+                            <strong>You</strong> (Owner)
+                        </li>
+                        {sharedUsers.map((user) => (
+                            <li key={user}>{user} (Viewer)</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            <div className={`toolbar ${!isOwner ? 'disabled' : ''}`}>
                 <button onClick={() => editor.chain().focus().toggleBold().run()} className={isBtnActive('bold')}>
                     B
                 </button>
@@ -154,14 +182,9 @@ const Editor = () => {
                 >
                     1.
                 </button>
-                <div className='divider' />
-                <button className='manual-save-btn' onClick={() => handleSave(editor.getHTML(), title)}>
-                    Save Now
-                </button>
             </div>
 
-            {/* Editor Area */}
-            <div className='tiptap-editor'>
+            <div className={`tiptap-editor ${!isOwner ? 'readonly' : ''}`}>
                 <EditorContent editor={editor} />
             </div>
         </div>

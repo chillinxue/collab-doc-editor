@@ -1,8 +1,72 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ajaia Collaborative Doc Editor (Mini Google Docs)
+Candidate: Chelsie Lin (chels.inmadison@gmail.com)
 
-Currently, two official plugins are available:
+Role: Technical Program and Project Manager, AI Delivery
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A lightweight, high-performance collaborative document editor built to demonstrate full-stack product judgment, technical execution, and AI-native development workflows.
+
+🚀 Live Demo
+[Insert your Vercel or Netlify URL here]
+
+✨ Key Features
+
+1. Advanced Document Editing
+   Rich Text Support: Full support for Bold, Italic, Underline, and Heading hierarchies (H1, H2).
+
+List Management: Integrated bulleted and numbered lists for structured content.
+
+Real-time Feedback: A status indicator showing "Saved," "Saving," or "Unsaved" states to ensure user confidence.
+
+2. File Import & Handling
+   External Workflow: Users can import .txt or .md files directly into the editor.
+
+Contextual Integration: Importing a file automatically updates the document title to match the filename, streamlining the transition from local storage to the cloud.
+
+3. Simulation of Collaborative Sharing
+   Permission Logic: Built-in "Owner" and "Guest" view toggles to demonstrate access control logic.
+
+Read-only Mode: Non-owners (Guests) are restricted from editing content, renaming files, or importing new data.
+
+Invite Simulation: A functional sharing modal where users can manage an access list.
+
+4. Robust Persistence
+   LocalStorage Engine: All document content, titles, and sharing settings persist across browser refreshes.
+
+Last Saved Timestamp: Displays the exact time of the last successful data commit.
+
+🛠 Tech Stack
+Frontend: React (Vite)
+
+Editor Core: TipTap (Headless Framework)
+
+Styling: Custom CSS (Optimized for Readability)
+
+Persistence: Browser LocalStorage API
+
+📦 Installation and Setup
+To run this project locally, ensure you have Node.js v18 or higher installed.
+
+Clone the repository:
+
+Bash
+git clone [Your GitHub URL]
+cd collab-doc-editor
+Install dependencies:
+
+Bash
+npm install
+Start the development server:
+
+Bash
+npm run dev
+Access the app:
+Open http://localhost:5173 in your browser.
+
+🧠 Product Decisions & Trade-offs (TPM Insight)
+LocalStorage over External DB: To ensure a stable, zero-latency delivery within the 6-hour window, I prioritized LocalStorage. This allowed me to focus 100% on the UX of the sharing logic and editor stability rather than debugging database connection strings.
+
+Simulated Multi-user View: Since LocalStorage is client-side, I implemented an "Owner/Guest" toggle. This demonstrates my understanding of role-based access control (RBAC) in a way that is immediately testable by the reviewer without requiring them to create multiple accounts.
+
+Deliberate Feature Cuts: I deprioritized "Real-time Cursor Tracking" to ensure that the core "File Import" and "Persistence" features were bug-free and polished.

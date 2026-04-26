@@ -7,6 +7,7 @@ Role: Technical Program and Project Manager, AI Delivery
 ## A lightweight, high-performance collaborative document editor built to demonstrate full-stack product judgment, technical execution, and AI-native development workflows.
 
 🚀 Live Demo: https://collab-doc-editor.vercel.app/
+Video: https://drive.google.com/file/d/196O-fdVvPyicNo8gMJz1yGRoelu76C0F/view?usp=sharing
 
 ![Main Interface](https://github.com/user-attachments/assets/54308121-c882-4b29-a53a-e154466138a2)
 

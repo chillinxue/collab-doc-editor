@@ -3,7 +3,7 @@
 ## Links
 
 - **Live Demo:** [ https://collab-doc-editor.vercel.app/]
-- **Demo Video:** [Loom/YouTube]
+- **Demo Video:** [https://drive.google.com/file/d/196O-fdVvPyicNo8gMJz1yGRoelu76C0F/view?usp=sharing]
 
 ## Project Structure
 

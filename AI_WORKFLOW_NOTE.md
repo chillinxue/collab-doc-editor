@@ -37,7 +37,8 @@ During the development of the "Save" and "Sharing" modules, the AI left behind u
 Action: I performed a manual code audit to ensure every state was hooked into a UI feedback loop (e.g., tying saveStatus to a color-coded status badge), ensuring a clean and maintainable codebase.
 
 4. Efficiency Gain & ROI
-   Traditional Estimated Time: 12–16 hours (setup, CSS styling, TipTap research, debugging).
+   Traditional Estimated Time: 12–16 hours (
+   setup, CSS styling, TipTap research, debugging).
 
 AI-Native Time: ~5 hours.
 

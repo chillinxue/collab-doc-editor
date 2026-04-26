@@ -1,0 +1,120 @@
+.editor-wrapper {
+    max-width: 800px;
+    margin: 20px auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.title-input {
+    font-size: 28px;
+    font-weight: 700;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 2px solid #f1f5f9;
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+.title-input:focus {
+    border-bottom-color: #3b82f6;
+    transition: border-color 0.3s;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    align-items: center;
+}
+
+.toolbar button {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #475569;
+    background-color: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toolbar button:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.toolbar button.active-btn {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #2563eb;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background-color: #cbd5e1;
+    margin: 0 4px;
+}
+
+.tiptap-editor {
+    background-color: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 0 0 8px 8px;
+    min-height: 500px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tiptap {
+    padding: 40px;
+    min-height: 420px;
+    outline: none;
+}
+
+.tiptap h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+.tiptap h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.tiptap p {
+    margin: 1em 0;
+    line-height: 1.6;
+    color: #334155;
+}
+
+.tiptap ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 1em 0;
+}
+
+.tiptap ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin: 1em 0;
+}
+
+.tiptap li {
+    margin-bottom: 0.5em;
+}
+
+.tiptap ::selection {
+    background-color: #bfdbfe;
+}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'; // add usestate
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
+import './Editor.css';
 
 const Editor = () => {
     // ---rename ---
@@ -26,7 +27,6 @@ const Editor = () => {
 
     if (!editor) return null;
 
-    // 輔助函式：讓程式碼更乾淨，判斷功能是否啟用
     const isBtnActive = (name, attrs = {}) => (editor.isActive(name, attrs) ? 'active-btn' : '');
 
     return (
@@ -100,13 +100,13 @@ const Editor = () => {
                     onClick={() => editor.chain().focus().toggleBulletList().run()}
                     className={isBtnActive('bulletList')}
                 >
-                    • 清單
+                    •
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleOrderedList().run()}
                     className={isBtnActive('orderedList')}
                 >
-                    1. 清單
+                    1.
                 </button>
             </div>
 

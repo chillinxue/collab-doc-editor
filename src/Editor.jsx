@@ -5,12 +5,9 @@ import Underline from '@tiptap/extension-underline';
 import './Editor.css';
 
 const Editor = () => {
-    // --- State Management ---
     const [title, setTitle] = useState(localStorage.getItem('saved-title') || 'Untitled Document');
     const [saveStatus, setSaveStatus] = useState('Saved');
     const [lastSaved, setLastSaved] = useState(localStorage.getItem('last-saved-time') || 'Never');
-
-    // --- Task 3: Sharing States ---
     const [isOwner, setIsOwner] = useState(true);
     const [sharedUsers, setSharedUsers] = useState(['colleague@ajaia.com']);
     const [newEmail, setNewEmail] = useState('');
@@ -18,50 +15,61 @@ const Editor = () => {
 
     const fileInputRef = useRef(null);
 
-    // --- Persistence Logic ---
     const handleSave = useCallback(
         (content, currentTitle) => {
             if (!isOwner) return;
-
-            setSaveStatus('Saving...'); // saveStatus
+            setSaveStatus('Saving...');
 
             setTimeout(() => {
                 localStorage.setItem('saved-doc', content);
                 localStorage.setItem('saved-title', currentTitle);
                 const now = new Date().toLocaleTimeString();
                 localStorage.setItem('last-saved-time', now);
-
                 setLastSaved(now);
-                setSaveStatus('Saved'); // saveStatus
+                setSaveStatus('Saved');
             }, 500);
         },
         [isOwner]
     );
 
-    // --- File Upload ---
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
+        // 增加更嚴謹的檢查
         if (!file || !isOwner) return;
 
         const reader = new FileReader();
         reader.onload = (e) => {
+            const rawContent = e.target.result;
             if (editor) {
-                editor.commands.setContent(e.target.result);
+                const formattedContent = rawContent.startsWith('<')
+                    ? rawContent
+                    : `<p>${rawContent.replace(/\n/g, '<br>')}</p>`;
+
+                editor.commands.setContent(formattedContent);
+
                 const newTitle = file.name.replace(/\.[^/.]+$/, '');
                 setTitle(newTitle);
-                setSaveStatus('Imported'); // use saveStatus
+
+                // 匯入後手動觸發一次存檔，確保 Persistence 成功
+                handleSave(formattedContent, newTitle);
+                setSaveStatus('Imported');
             }
+            event.target.value = '';
         };
+
+        reader.onerror = () => {
+            alert('Failed to read file.');
+        };
+
         reader.readAsText(file);
     };
 
-    // --- TipTap Initialization ---
     const editor = useEditor({
         extensions: [StarterKit, Underline],
         content: localStorage.getItem('saved-doc') || '<h1>Ajaia Assignment</h1><p>Start editing...</p>',
         editable: isOwner,
         onUpdate: ({ editor }) => {
-            setSaveStatus('Unsaved'); // saveStatus
+            setSaveStatus('Unsaved');
             handleSave(editor.getHTML(), title);
         },
     });
@@ -70,10 +78,9 @@ const Editor = () => {
         if (editor) editor.setEditable(isOwner);
     }, [isOwner, editor]);
 
-    // --- Sharing Logic ---
     const handleAddUser = () => {
         if (newEmail && !sharedUsers.includes(newEmail)) {
-            setSharedUsers([...sharedUsers, newEmail]); // setSharedUsers
+            setSharedUsers([...sharedUsers, newEmail]);
             setNewEmail('');
         }
     };
@@ -86,7 +93,6 @@ const Editor = () => {
         <div className='editor-wrapper'>
             <div className='status-bar'>
                 <div className='status-left'>
-                    {/* use saveStatus to change Badge color */}
                     <span className={`status-badge ${saveStatus.toLowerCase().replace('...', '').replace(' ', '-')}`}>
                         {isOwner ? `Status: ${saveStatus}` : 'Read-Only Mode'}
                     </span>
@@ -116,10 +122,15 @@ const Editor = () => {
                         Share
                     </button>
                 </div>
-                <input type='file' ref={fileInputRef} onChange={handleFileUpload} style={{ display: 'none' }} />
+                <input
+                    type='file'
+                    ref={fileInputRef}
+                    onChange={handleFileUpload}
+                    accept='.txt,.md'
+                    style={{ display: 'none' }}
+                />
             </div>
 
-            {/* Share Modal*/}
             {showShareModal && (
                 <div className='share-modal'>
                     <h4>Share Settings</h4>

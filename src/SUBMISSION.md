@@ -2,7 +2,7 @@
 
 ## Links
 
-- **Live Demo:** [ Vercel/Netlify]
+- **Live Demo:** [ https://collab-doc-editor.vercel.app/]
 - **Demo Video:** [Loom/YouTube]
 
 ## Project Structure

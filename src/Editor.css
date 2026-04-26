@@ -118,3 +118,71 @@
 .tiptap ::selection {
     background-color: #bfdbfe;
 }
+
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.status-badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.status-badge.saving {
+    background: #fef9c3;
+    color: #854d0e;
+}
+.status-badge.saved {
+    background: #dcfce7;
+    color: #166534;
+}
+.status-badge.unsaved {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.manual-save-btn {
+    margin-left: auto;
+    background-color: #0f172a !important;
+    color: white !important;
+    border: none !important;
+}
+
+.manual-save-btn:hover {
+    background-color: #334155 !important;
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.import-btn {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #475569;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.import-btn:hover {
+    background-color: #e2e8f0;
+}
+
+/* Adjust the badge for the 'Imported' state */
+.status-badge.imported {
+    background: #dbeafe;
+    color: #1e40af;
+}

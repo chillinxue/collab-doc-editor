@@ -7,6 +7,8 @@ Role: Technical Program and Project Manager, AI Delivery
 
 A lightweight, high-performance collaborative document editor built to demonstrate full-stack product judgment, technical execution, and AI-native development workflows.
 
+![Main Interface](https://github.com/user-attachments/assets/54308121-c882-4b29-a53a-e154466138a2)
+
 🚀 Live Demo
 [Insert your Vercel or Netlify URL here]
 
@@ -14,6 +16,8 @@ A lightweight, high-performance collaborative document editor built to demonstra
 
 1. Advanced Document Editing
    Rich Text Support: Full support for Bold, Italic, Underline, and Heading hierarchies (H1, H2).
+
+![Main Interface](https://github.com/user-attachments/assets/bfefa923-03f9-4c20-a8eb-02bf9ad5d28f)
 
 List Management: Integrated bulleted and numbered lists for structured content.
 
@@ -34,39 +38,42 @@ Invite Simulation: A functional sharing modal where users can manage an access l
 4. Robust Persistence
    LocalStorage Engine: All document content, titles, and sharing settings persist across browser refreshes.
 
-Last Saved Timestamp: Displays the exact time of the last successful data commit.
+- Last Saved Timestamp: Displays the exact time of the last successful data commit.
 
 🛠 Tech Stack
-Frontend: React (Vite)
 
-Editor Core: TipTap (Headless Framework)
-
-Styling: Custom CSS (Optimized for Readability)
-
-Persistence: Browser LocalStorage API
+- Frontend: React (Vite)
+- Editor Core: TipTap (Headless Framework)
+- Styling: Custom CSS (Optimized for Readability)
+- Persistence: Browser LocalStorage API
 
 📦 Installation and Setup
 To run this project locally, ensure you have Node.js v18 or higher installed.
 
-Clone the repository:
+@ Clone the repository:
+
+- Bash
+- git clone https://github.com/chillinxue/collab-doc-editor
+- cd collab-doc-editor
+- Install dependencies:
 
 Bash
-git clone [Your GitHub URL]
-cd collab-doc-editor
-Install dependencies:
+
+- npm install
+- Start the development server:
 
 Bash
-npm install
-Start the development server:
 
-Bash
-npm run dev
-Access the app:
-Open http://localhost:5173 in your browser.
+- npm run dev
+- Access the app:
+- Open http://localhost:5173 in your browser.
 
-🧠 Product Decisions & Trade-offs (TPM Insight)
-LocalStorage over External DB: To ensure a stable, zero-latency delivery within the 6-hour window, I prioritized LocalStorage. This allowed me to focus 100% on the UX of the sharing logic and editor stability rather than debugging database connection strings.
+🧠 Product Decisions & Trade-offs
+• LocalStorage over External DB:
+To ensure a stable, zero-latency delivery within the 6-hour window, I prioritized LocalStorage. This allowed me to focus 100% on the UX of the sharing logic and editor stability rather than debugging database connection strings.
 
-Simulated Multi-user View: Since LocalStorage is client-side, I implemented an "Owner/Guest" toggle. This demonstrates my understanding of role-based access control (RBAC) in a way that is immediately testable by the reviewer without requiring them to create multiple accounts.
+• Simulated Multi-user View:
+Since LocalStorage is client-side, I implemented an "Owner/Guest" toggle. This demonstrates my understanding of role-based access control (RBAC) in a way that is immediately testable by the reviewer without requiring them to create multiple accounts.
 
-Deliberate Feature Cuts: I deprioritized "Real-time Cursor Tracking" to ensure that the core "File Import" and "Persistence" features were bug-free and polished.
+• Deliberate Feature Cuts:
+I deprioritized "Real-time Cursor Tracking" to ensure that the core "File Import" and "Persistence" features were bug-free and polished.

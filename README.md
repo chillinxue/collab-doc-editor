@@ -6,11 +6,9 @@ Candidate: Chelsie Lin (chels.inmadison@gmail.com)
 Role: Technical Program and Project Manager, AI Delivery
 
 A lightweight, high-performance collaborative document editor built to demonstrate full-stack product judgment, technical execution, and AI-native development workflows.
+🚀 Live Demo:
 
 ![Main Interface](https://github.com/user-attachments/assets/54308121-c882-4b29-a53a-e154466138a2)
-
-🚀 Live Demo
-[Insert your Vercel or Netlify URL here]
 
 ✨ Key Features
 
